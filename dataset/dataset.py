@@ -97,8 +97,8 @@ class TabularDataFrame(object):
                 self._categorical_encoder = OrdinalEncoder(dtype=np.int32).fit(self.data_cate)
             elif self.categorical_encoder == "onehot":
                 self._categorical_encoder = OneHotEncoder(
-                    handle_unknown='error'
-                    drop="if_binary"
+                    handle_unknown='error',
+                    drop="if_binary",
                     sparse_output=False,
                     feature_name_combiner=feature_name_combiner,
                     dtype=np.int32,
@@ -167,14 +167,11 @@ class TabularDataFrame(object):
     
 
 class V0(TabularDataFrame):
-    continuous_columns = [
-        ,
-    ]
+    continuous_columns = [str(i) for i in range(512)]
     categorical_columns = [
-        ,
     ]
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.train = pd.read_csv(to_absolute_path("datasets/train_fix.csv"))
-        self.test = pd.read_csv(to_absolute_path("datasets/test_fix.csv"))
+        self.train = pd.read_csv(to_absolute_path("datasets/train_embed.csv"))
+        self.test = pd.read_csv(to_absolute_path("datasets/test_embed.csv"))

@@ -11,7 +11,7 @@ import dataset.dataset as dataset
 from dataset import TabularDataFrame
 from model import get_classifier
 
-from .optuna import OptimParam
+# from .optuna import OptimParam
 from .utils import cal_metrics, set_seed
 
 from collections import Counter
@@ -111,8 +111,10 @@ class ExpBase:
             )
 
         final_score = Counter()
-        for i in score_all:
-            final_score.update(i)
+        for score in score_all:
+            final_score.update(score)
+
+        avg_score = {key: value / self.n_splits for key, value in final_score.items()}
         
         y_test_pred_all = np.argmax(np.concatenate(y_test_pred_all, axis=1).mean(axis=1), axis=1)
         submit_df = pd.DataFrame(self.id)
@@ -120,7 +122,7 @@ class ExpBase:
         print(submit_df)
         submit_df.to_csv("submit.csv", index=False)
 
-        logger.info(f"[{self.model_name} results] ACC: {score_all['ACC']/self.n_splits:.4f} | AUC: {score_all['AUC']/self.n_splits:.4f}")
+        logger.info(f"[{self.model_name} results] ACC: {avg_score['ACC']:.4f} | AUC: {avg_score['AUC']:.4f}")
 
     def get_model_config(self, *args, **kwargs):
         raise NotImplementedError()
