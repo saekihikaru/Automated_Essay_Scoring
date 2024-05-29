@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 import tensorflow_hub as hub
 # from gensim.models import Word2Vec
@@ -47,7 +48,11 @@ class Word2VecEmbedder(EmbBase):
 # Example usage:
 if __name__ == "__main__":
     # Example texts
-    texts = ["This is a sentence.", "This is another sentence."]
+    # texts = ["This is a sentence.", "This is another sentence."]
+    train = pd.read_csv("datasets/train1000.csv")
+    test = pd.read_csv("datasets/test.csv")
+    # read_csv(file_path, header=None)
+    texts = train['full_text']
     print("Texts to be embedded:", texts)
 
     # # 事前にダウンロード
@@ -70,8 +75,28 @@ if __name__ == "__main__":
     # USE Embedding
     print("Starting USE embedding...")
     use_embedder = USEEmbedder()
-    use_embeddings = use_embedder.embed(texts)
-    print("USE Embeddings:", use_embeddings)
+
+    # テキストの埋め込み
+    print("Embedding training texts using USE...")
+    train_embeddings = use_embedder.embed(train['full_text'])
+    train_embeddings = pd.DataFrame(train_embeddings)
+    train = pd.concat([train, train_embeddings], axis=1)
+
+    print("Embedding test texts using USE...")
+    test_embeddings = use_embedder.embed(test['full_text'])
+    test_embeddings = pd.DataFrame(test_embeddings)
+    test = pd.concat([test, test_embeddings], axis=1)
+
+    # データの情報表示
+    print("Training data info:")
+    print(train.info())
+    print("Training data head:")
+    print(train.head(10))
+
+    print("Test data info:")
+    print(test.info())
+    print("Test data head:")
+    print(test.head(10))
 
     # # Word2Vec Embedding
     # print("Starting Word2Vec embedding...")
@@ -79,3 +104,7 @@ if __name__ == "__main__":
     # word2vec_embedder = Word2VecEmbedder(sentences=sentences)
     # word2vec_embeddings = word2vec_embedder.embed(texts)
     # print("Word2Vec Embeddings:", word2vec_embeddings)
+
+
+    train.to_csv('datasets/train_embed.csv', index=False)
+    test.to_csv('datasets/test_embed.csv', index=False)
