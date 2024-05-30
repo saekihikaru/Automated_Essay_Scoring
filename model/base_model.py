@@ -8,6 +8,7 @@ from sklearn.metrics import (
     mean_absolute_error,
 )
 import numpy as np
+from .utils import quadratic_weighted_kappa
 
 
 class BaseClassifier:
@@ -31,24 +32,11 @@ class BaseClassifier:
         y_pred = self.predict(X)
         results = {}
         results["ACC"] = accuracy_score(y, y_pred)
-        
         y_score = self.predict_proba(X)
-        
-        if len(np.unique(y)) > 2:
-            # For multiclass
-            results["AUC"] = roc_auc_score(y, y_score, multi_class="ovr")
-            average = "macro"  # Macro averaging is commonly used for multiclass
-        else:
-            # For binary
-            y_score = y_score[:, 1]
-            results["AUC"] = roc_auc_score(y, y_score)
-            average = "binary"
-        
-        results["Precision"] = precision_score(y, y_pred, average=average, zero_division=0)
-        results["Recall"] = recall_score(y, y_pred, average=average, zero_division=0)
-        results["F1"] = f1_score(y, y_pred, average=average, zero_division=0)
-        
+        results["AUC"] = roc_auc_score(y, y_score, multi_class="ovr")
+        results["Precision"] = precision_score(y, y_pred, average="micro", zero_division=0)
+        results["Recall"] = recall_score(y, y_pred, average="micro", zero_division=0)
+        results["Specificity"] = recall_score(1 - y, 1 - y_pred, average="micro", zero_division=0)
+        results["F1"] = f1_score(y, y_pred, average="micro", zero_division=0)
+        results["QWK"] = quadratic_weighted_kappa(y, y_pred)
         return results
-
-    def feature_importance(self):
-        raise NotImplementedError()
