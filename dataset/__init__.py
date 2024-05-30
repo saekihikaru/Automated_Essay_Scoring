@@ -1,1 +1,1 @@
-from .dataset import V0, TabularDataFrame
+from .dataset import Vuse, Vbert, TabularDataFrame

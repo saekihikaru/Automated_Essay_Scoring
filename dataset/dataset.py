@@ -166,12 +166,22 @@ class TabularDataFrame(object):
         return categories_dict
     
 
-class V0(TabularDataFrame):
+class Vuse(TabularDataFrame):
     continuous_columns = [str(i) for i in range(512)]
     categorical_columns = [
     ]
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.train = pd.read_csv(to_absolute_path("datasets/train_embed.csv"))
-        self.test = pd.read_csv(to_absolute_path("datasets/test_embed.csv"))
+        self.train = pd.read_csv(to_absolute_path("datasets/train_embed1000_use.csv"))
+        self.test = pd.read_csv(to_absolute_path("datasets/test_embed_use.csv"))
+
+class Vbert(TabularDataFrame):
+    continuous_columns = [str(i) for i in range(768)]
+    categorical_columns = [
+    ]
+
+    def __init__(self, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.train = pd.read_csv(to_absolute_path("datasets/train_embed1000_bert.csv"))
+        self.test = pd.read_csv(to_absolute_path("datasets/test_embed_bert.csv"))

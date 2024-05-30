@@ -106,5 +106,5 @@ if __name__ == "__main__":
     # print("Word2Vec Embeddings:", word2vec_embeddings)
 
 
-    train.to_csv('datasets/train_embed.csv', index=False)
-    test.to_csv('datasets/test_embed.csv', index=False)
+    train.to_csv('datasets/train_embed1000_use.csv', index=False)
+    test.to_csv('datasets/test_embed_use.csv', index=False)
