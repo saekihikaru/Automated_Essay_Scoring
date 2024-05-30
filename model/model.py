@@ -3,7 +3,6 @@ import xgboost as xgb
 from sklearn.utils.validation import check_X_y
 
 from .base_model import BaseClassifier
-from .utils import f1_micro, f1_micro_lgb
 
 
 class XGBoostClassifier(BaseClassifier):

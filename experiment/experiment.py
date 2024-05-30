@@ -48,7 +48,7 @@ class ExpBase:
     def init_writer(self):
         metrics = [
             "fold",
-            "F1",
+            "QWK",
             "ACC",
             "AUC",
         ]
@@ -99,7 +99,7 @@ class ExpBase:
             score.update(model.evaluate(val_data[self.columns], val_data[self.target_column].values.squeeze()))
             logger.info(
                 f"[{self.model_name} results ({i_fold+1} / {self.n_splits})] val/ACC: {score['ACC']:.4f} | val/AUC: {score['AUC']:.4f} | "
-                f"val/F1: {score['F1']}"
+                f"val/QWK: {score['QWK']}"
             )
 
             score_all.append(score)
@@ -122,7 +122,7 @@ class ExpBase:
         print(submit_df)
         submit_df.to_csv("submit.csv", index=False)
 
-        logger.info(f"[{self.model_name} results] ACC: {avg_score['ACC']:.4f} | AUC: {avg_score['AUC']:.4f}")
+        logger.info(f"[{self.model_name} results] ACC: {avg_score['ACC']:.4f} | AUC: {avg_score['AUC']:.4f} | QWK: {avg_score['QWK']:.4f}")
 
     def get_model_config(self, *args, **kwargs):
         raise NotImplementedError()
