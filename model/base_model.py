@@ -6,10 +6,9 @@ from sklearn.metrics import (
     roc_auc_score,
     mean_squared_error, 
     mean_absolute_error,
+    cohen_kappa_score
 )
 import numpy as np
-from .utils import quadratic_weighted_kappa
-
 
 class BaseClassifier:
     def __init__(self, input_dim, output_dim, model_config, verbose) -> None:
@@ -38,5 +37,5 @@ class BaseClassifier:
         results["Recall"] = recall_score(y, y_pred, average="micro", zero_division=0)
         results["Specificity"] = recall_score(1 - y, 1 - y_pred, average="micro", zero_division=0)
         results["F1"] = f1_score(y, y_pred, average="micro", zero_division=0)
-        results["QWK"] = quadratic_weighted_kappa(y, y_pred)
+        results["QWK"] = cohen_kappa_score(y, y_pred, weights="quadratic")
         return results
