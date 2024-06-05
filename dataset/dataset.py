@@ -183,5 +183,5 @@ class Vbert(TabularDataFrame):
 
     def __init__(self, **kwargs) -> None:
         super().__init__(**kwargs)
-        self.train = pd.read_csv(to_absolute_path("datasets/train_embed1000_bert.csv"))
-        self.test = pd.read_csv(to_absolute_path("datasets/test_embed_bert.csv"))
+        self.train = pd.read_csv(to_absolute_path("datasets/train_embed1000_fix_bert.csv"))
+        self.test = pd.read_csv(to_absolute_path("datasets/test_embed_fix_bert.csv"))
