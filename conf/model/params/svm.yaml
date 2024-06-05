@@ -1,0 +1,6 @@
+C: 100
+kernel: 'rbf'
+gamma: 'scale' #auto/scale
+# class_weight: 'balanced' #dict/balanced 
+# decision_function_shape: 'ovr' #ovo/ovr
+# break_ties: True
