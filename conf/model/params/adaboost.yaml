@@ -1,0 +1,4 @@
+# base_estimator: DecisionTreeClassifier(max_depth=3),  # 決定木を基本分類器として使用
+n_estimators: 1000
+learning_rate: 1.0
+# early_stopping_rounds: 50
